@@ -1,7 +1,7 @@
-use crate::{domains::{health::controller::health_check, questions::handlers, scoreboard::handlers::{get_last_ten_scores_handler, create_score_handler}}, common::{state::app_state::AppState, config::env::AppEnvironment}};
+use crate::{domains::{health::controller::health_check, questions::handlers, scoreboard::handlers::{get_last_ten_scores_handler, create_score_handler}}, common::{state::app_state::AppState, config::env::AppEnvironment, middleware::auth::basic_auth_middleware}};
 use axum::{
     routing::{get, post, put},
-    Router, Server,
+    Router, Server, middleware::from_fn_with_state,
 };
 use sqlx::{migrate::MigrateDatabase, sqlite::SqlitePoolOptions, Sqlite};
 use std::net::SocketAddr;
@@ -15,6 +15,7 @@ pub fn create_router(app_state: AppState) -> Router {
 
     router
         .route("/questions", post(handlers::create_question_handler))
+        .layer(from_fn_with_state(app_state.clone(), basic_auth_middleware))
         .route("/questions/random", get(handlers::get_random_question_handler))
         .route("/questions/:question_id/answer", put(handlers::increment_answer_count_handler))
         .route("/scores", post(create_score_handler))
@@ -31,6 +32,8 @@ pub async fn bootstrap() -> Result<(), Box<dyn std::error::Error + Send + Sync>>
         address: dotenvy::var("ADDRESS")?,
         port: dotenvy::var("PORT")?.to_string().parse()?,
         database_url: dotenvy::var("DATABASE_URL")?,
+        admin_username: dotenvy::var("ADMIN_USERNAME")?,
+        admin_password: dotenvy::var("ADMIN_PASSWORD")?,
     };
 
     tracing_subscriber::fmt::init();
@@ -68,7 +71,7 @@ pub async fn bootstrap() -> Result<(), Box<dyn std::error::Error + Send + Sync>>
     // run migrations
     sqlx::migrate!("./migrations").run(&pool).await?;
 
-    let app_state = AppState::new(pool);
+    let app_state = AppState::new(pool, env.clone());
     let app = create_router(app_state);
 
     event!(

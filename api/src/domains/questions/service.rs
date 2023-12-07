@@ -25,13 +25,13 @@ pub async fn create_question(
     Ok(counter)
 }
 
-pub async fn fetch_one_random_counter(db: &Pool<Sqlite>) -> Result<Question, sqlx::Error> {
+pub async fn fetch_random_questions(db: &Pool<Sqlite>) -> Result<Question, sqlx::Error> {
     let counter = sqlx::query_as::<_, Question>(
         r#"
         SELECT id, statement, answer, explanation, attempts, correct_answers
         FROM questions
         ORDER BY RANDOM()
-        LIMIT 1
+        LIMIT 10
         "#,
     )
     .fetch_one(db)

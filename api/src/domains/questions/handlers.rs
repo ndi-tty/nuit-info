@@ -3,7 +3,7 @@ use axum_valid::Valid;
 use serde_json::Value;
 use tracing::event;
 
-use crate::{common::{state::app_state::AppState, errors::database_errors::map_to_http_status_code}, domains::questions::service::{create_question, fetch_one_random_counter, self}};
+use crate::{common::{state::app_state::AppState, errors::database_errors::map_to_http_status_code}, domains::questions::service::{create_question, fetch_random_questions, self}};
 
 use super::schema::{CreateQuestionDto, IncrementAnswerCountDto};
 
@@ -35,7 +35,7 @@ pub async fn get_random_question_handler(
         "get_random_question called"
     );
 
-    let question = fetch_one_random_counter(&data.db)
+    let question = fetch_random_questions(&data.db)
         .await
         .map_err(|e| {
             event!(tracing::Level::ERROR, "error creating counter: {}", e);
