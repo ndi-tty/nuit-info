@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import "./quiz.css";
 
 export interface QuizProps {
-  question: string;
+  statement: string;
   options: boolean[];
-  correctAnswer: boolean;
+  answer: boolean;
   explanation: string;
 }
 
@@ -20,7 +20,7 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
 
   const handleOptionClick = (option: boolean) => {
     if (currentIndex < quizData.length) {
-      const isCorrect = option === quizData[currentIndex].correctAnswer;
+      const isCorrect = option === quizData[currentIndex].answer;
       setselectedAnswers([...selectedAnswers, option]);
       setScore(isCorrect ? score + 1 : score);
     }
@@ -53,14 +53,14 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
       {!isQuizCompleted && (
         <>
           <div className="quiz-card">
-            <h3>{quizData[currentIndex].question}</h3>
+            <h3>{quizData[currentIndex].statement}</h3>
             <ul>
               {quizData[currentIndex].options.map((option, index) => (
                 <li
                   key={index}
                   className={
                     currentIndex < selectedAnswers.length
-                      ? option === quizData[currentIndex].correctAnswer
+                      ? option === quizData[currentIndex].answer
                         ? "correct"
                         : selectedAnswers[currentIndex] === option
                         ? "incorrect"
@@ -97,12 +97,12 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
                 style={{ cursor: "text" }}
                 key={index}
                 className={
-                  quiz.correctAnswer === selectedAnswers[index]
+                  quiz.answer === selectedAnswers[index]
                     ? "correct"
                     : "incorrect"
                 }
               >
-                {index + 1} : {quiz.question}
+                {index + 1} : {quiz.statement}
               </li>
             ))}
           </ul>
