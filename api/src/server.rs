@@ -1,9 +1,8 @@
-use crate::{domains::{health::controller::health_check, questions::handlers, scoreboard::handlers::{get_last_ten_scores_handler, create_score_handler}}, common::{state::app_state::AppState, config::args::CliArguments}};
+use crate::{domains::{health::controller::health_check, questions::handlers, scoreboard::handlers::{get_last_ten_scores_handler, create_score_handler}}, common::{state::app_state::AppState, config::env::AppEnvironment}};
 use axum::{
     routing::{get, post, put},
     Router, Server,
 };
-use clap::Parser;
 use sqlx::{migrate::MigrateDatabase, sqlite::SqlitePoolOptions, Sqlite};
 use std::net::SocketAddr;
 use tracing::event;
@@ -26,23 +25,29 @@ pub fn create_router(app_state: AppState) -> Router {
 }
 
 pub async fn bootstrap() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
-    let args = CliArguments::parse();
+    dotenvy::dotenv().ok();
+
+    let env = AppEnvironment {
+        address: dotenvy::var("ADDRESS")?,
+        port: dotenvy::var("PORT")?.to_string().parse()?,
+        database_url: dotenvy::var("DATABASE_URL")?,
+    };
 
     tracing_subscriber::fmt::init();
 
     // create database if it does not exist
-    if !Sqlite::database_exists(&args.database_url).await? {
+    if !Sqlite::database_exists(&env.database_url).await? {
         event!(
             tracing::Level::INFO,
             "database {} does not exist, creating it...",
-            args.database_url
+            env.database_url
         );
-        match Sqlite::create_database(&args.database_url).await {
+        match Sqlite::create_database(&env.database_url).await {
             Ok(_) => {
                 event!(
                     tracing::Level::INFO,
                     "created database at {}",
-                    args.database_url
+                    env.database_url
                 );
             }
             Err(e) => Err(e)?,
@@ -52,12 +57,12 @@ pub async fn bootstrap() -> Result<(), Box<dyn std::error::Error + Send + Sync>>
     // connect to database
     let pool = SqlitePoolOptions::new()
         .max_connections(5)
-        .connect(&args.database_url)
+        .connect(&env.database_url)
         .await?;
     event!(
         tracing::Level::INFO,
         "successfully connected to {}",
-        args.database_url
+        env.database_url
     );
 
     // run migrations
@@ -69,12 +74,12 @@ pub async fn bootstrap() -> Result<(), Box<dyn std::error::Error + Send + Sync>>
     event!(
         tracing::Level::INFO,
         "starting server on {}:{}",
-        args.address,
-        args.port
+        env.address,
+        env.port
     );
 
     // start server
-    let socker_addr: SocketAddr = format!("{}:{}", args.address, args.port).parse()?;
+    let socker_addr: SocketAddr = format!("{}:{}", env.address, env.port).parse()?;
     Server::bind(&socker_addr)
         .serve(app.into_make_service())
         .await?;
