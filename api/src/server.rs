@@ -1,13 +1,13 @@
 use crate::{domains::{health::controller::health_check, questions::handlers, scoreboard::handlers::{get_last_ten_scores_handler, create_score_handler}}, common::{state::app_state::AppState, config::args::CliArguments}};
-use askama::Result;
 use axum::{
-    routing::{delete, get, post, put},
+    routing::{get, post, put},
     Router, Server,
 };
 use clap::Parser;
 use sqlx::{migrate::MigrateDatabase, sqlite::SqlitePoolOptions, Sqlite};
 use std::net::SocketAddr;
 use tracing::event;
+use tower_http::cors::CorsLayer;
 
 pub fn create_router(app_state: AppState) -> Router {
     let router = Router::new();
@@ -22,6 +22,7 @@ pub fn create_router(app_state: AppState) -> Router {
         .route("/scores", get(get_last_ten_scores_handler))
         .nest_service("/", misc)
         .with_state(app_state)
+        .layer(CorsLayer::permissive())
 }
 
 pub async fn bootstrap() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
