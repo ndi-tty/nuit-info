@@ -1,25 +1,27 @@
 import React, { useState } from "react";
 import "./quiz.css";
-import { QuizCard } from "./quiz-card";
 
 export interface QuizProps {
   question: string;
   options: boolean[];
   correctAnswer: boolean;
-  selectedOption: null;
-  isAnswered: boolean;
+  explanation: string;
 }
 
-export const Quiz: React.FC<QuizProps[]> = (quizData) => {
+export interface QuizFormProps {
+  quizData: QuizProps[];
+}
+
+export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedOptions, setSelectedOptions] = useState<boolean[]>([]);
+  const [selectedAnswers, setselectedAnswers] = useState<boolean[]>([]);
   const [score, setScore] = useState(0);
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
 
   const handleOptionClick = (option: boolean) => {
     if (currentIndex < quizData.length) {
       const isCorrect = option === quizData[currentIndex].correctAnswer;
-      setSelectedOptions([...selectedOptions, option]);
+      setselectedAnswers([...selectedAnswers, option]);
       setScore(isCorrect ? score + 1 : score);
     }
     if (currentIndex === quizData.length - 1) {
@@ -33,27 +35,77 @@ export const Quiz: React.FC<QuizProps[]> = (quizData) => {
     }
   };
 
+  const handleScoreResponse = (totalQuestions: number, score: number) => {
+    const percentage = (score / totalQuestions) * 100;
+    if (percentage >= 80) {
+      return "Excellent vous avez plus de 80% de bonnes réponses";
+    } else if (percentage >= 60) {
+      return "Bien vous avez plus de 60% de bonnes réponses";
+    } else if (percentage >= 40) {
+      return "Moyen vous avez plus de 40% de bonnes réponses";
+    } else {
+      return "Il serait peut-être temps de réviser";
+    }
+  };
+
   return (
     <div className="quiz-container">
       {!isQuizCompleted && (
         <>
-          <QuizCard
-            question={quizData[currentIndex].question}
-            options={quizData[currentIndex].options}
-            correctAnswer={quizData[currentIndex].correctAnswer}
-            selectedOption={null}
-            onOptionClick={handleOptionClick}
-            isAnswered={currentIndex < selectedOptions.length}
-          />
-          <button onClick={handleNextQuestion}>Next Question</button>
-          <p>Score: {score}</p>
+          <div className="quiz-card">
+            <h3>{quizData[currentIndex].question}</h3>
+            <ul>
+              {quizData[currentIndex].options.map((option, index) => (
+                <li
+                  key={index}
+                  className={
+                    currentIndex < selectedAnswers.length
+                      ? option === quizData[currentIndex].correctAnswer
+                        ? "correct"
+                        : selectedAnswers[currentIndex] === option
+                        ? "incorrect"
+                        : ""
+                      : selectedAnswers[currentIndex] === option
+                      ? "selected"
+                      : ""
+                  }
+                  onClick={() => handleOptionClick(option)}
+                >
+                  {option ? "Vrai" : "Faux"}
+                </li>
+              ))}
+            </ul>
+            {currentIndex < selectedAnswers.length && (
+              <p>Explication : {quizData[currentIndex].explanation}</p>
+            )}
+          </div>
+
+          <button className="next-button-quiz" onClick={handleNextQuestion}>
+            Suivant
+          </button>
         </>
       )}
 
       {isQuizCompleted && (
         <div className="quiz-summary">
-          <h2>Quiz Completed!</h2>
-          <p>Your Score: {score}</p>
+          <h2>Quiz terminé</h2>
+          <p>{handleScoreResponse(quizData.length, score)}</p>
+          <h2>Liste des resultats</h2>
+          <ul>
+            {quizData.map((quiz, index) => (
+              <li
+                style={{ cursor: "text" }}
+                key={index}
+                className={
+                  quiz.correctAnswer === selectedAnswers[index]
+                    ? "correct"
+                    : "incorrect"
+                }
+              >
+                {index + 1} : {quiz.question}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>

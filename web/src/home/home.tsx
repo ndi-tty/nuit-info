@@ -7,8 +7,13 @@ export const fakeQuizData: QuizProps[] = [
     question: "Quel est le nom du président de la République française ?",
     options: [true, false],
     correctAnswer: true,
-    selectedOption: null,
-    isAnswered: false,
+    explanation: "C'est a commencé à charo brigitte à l'ecole primaire",
+  },
+  {
+    question: "Quel est le nom du président de la République française ?",
+    options: [true, false],
+    correctAnswer: true,
+    explanation: "C'est a commencé à charo brigitte à l'ecole primaire",
   },
 ];
 
@@ -20,7 +25,7 @@ export const Home: React.FC<HomeProps> = () => {
       </div>
       <div className="right-section">
         <div className="card">
-          <Quiz {...fakeQuizData} />
+          <Quiz quizData={fakeQuizData} />
         </div>
       </div>
     </div>
