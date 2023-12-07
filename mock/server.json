@@ -1,0 +1,46 @@
+{
+    "questions": [
+        {
+            "statement": "Le recyclage ne sert à rien, tout finit par être jeté dans la même décharge.",
+            "answer": false,
+            "explanation": "Le recyclage permet de réutiliser des matériaux qui ne sont pas biodégradables. Il permet de réduire la quantité de déchets et de limiter l'exploitation des ressources naturelles."
+        },
+        {
+            "statement": "Les énergies renouvelables sont plus polluantes que les énergies fossiles.",
+            "answer": false,
+            "explanation": "Les énergies renouvelables sont moins polluantes que les énergies fossiles. Elles sont produites à partir de ressources naturelles qui se renouvellent en permanence."
+        },
+        {
+            "statement": "Les voitures ne polluent pas tant que ça",
+            "answer": false,
+            "explanation": "Les voitures polluent beaucoup. Elles rejettent des gaz toxiques qui contribuent au réchauffement climatique."
+        },
+        {
+            "statement": "Les déchets sont biodégradables",
+            "answer": false,
+            "explanation": "Les déchets ne sont pas tous biodégradables. Certains déchets comme le plastique ne se décomposent pas naturellement."
+        },
+        {
+            "statement": "La transition énergétique, c’est surtout le passage aux énergies renouvelables électriques",
+            "answer": false,
+            "explanation": "La transition énergétique, c’est le passage à une économie qui consomme moins d’énergie et qui utilise des énergies renouvelables."
+        },
+        {
+            "statement": "Garder sa vieille voiture, c’est mieux pour l’environnement",
+            "answer": true,
+            "explanation": "Garder sa vieille voiture, c’est mieux pour l’environnement. La fabrication d’une voiture neuve est très polluante, dans la mesure du possible, il faut garder sa voiture le plus longtemps possible."
+        }
+    ],
+    "scoreboard": [
+        {
+            "id": "a44f8fcb-5a47-4503-b4a0-e9447a00eff9",
+            "name": "Toto",
+            "longestStreak": 3
+        },
+        {
+            "id": "efdc375f-1981-4dac-983e-ed022e403d2c",
+            "name": "Tata",
+            "longestStreak": 2
+        }
+    ]
+}
