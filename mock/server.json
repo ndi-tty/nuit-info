@@ -1,31 +1,37 @@
 {
     "questions": [
         {
+            "id": "dd6cbf48-1ef6-426c-beef-2e0f1ec88c2c",
             "statement": "Le recyclage ne sert à rien, tout finit par être jeté dans la même décharge.",
             "answer": false,
             "explanation": "Le recyclage permet de réutiliser des matériaux qui ne sont pas biodégradables. Il permet de réduire la quantité de déchets et de limiter l'exploitation des ressources naturelles."
         },
         {
+            "id": "a7cdb501-c06f-4ad7-a7b1-d3878303ed99",
             "statement": "Les énergies renouvelables sont plus polluantes que les énergies fossiles.",
             "answer": false,
             "explanation": "Les énergies renouvelables sont moins polluantes que les énergies fossiles. Elles sont produites à partir de ressources naturelles qui se renouvellent en permanence."
         },
         {
+            "id": "f164225c-4e3f-4f83-a74c-34e2ea538a5b",
             "statement": "Les voitures ne polluent pas tant que ça",
             "answer": false,
             "explanation": "Les voitures polluent beaucoup. Elles rejettent des gaz toxiques qui contribuent au réchauffement climatique."
         },
         {
+            "id": "879b6ac1-347f-4952-a478-eebe43f8d1f3",
             "statement": "Les déchets sont biodégradables",
             "answer": false,
             "explanation": "Les déchets ne sont pas tous biodégradables. Certains déchets comme le plastique ne se décomposent pas naturellement."
         },
         {
+            "id": "36c21113-1990-45ca-9786-b05effdf45a2",
             "statement": "La transition énergétique, c’est surtout le passage aux énergies renouvelables électriques",
             "answer": false,
             "explanation": "La transition énergétique, c’est le passage à une économie qui consomme moins d’énergie et qui utilise des énergies renouvelables."
         },
         {
+            "id": "43025977-fb07-40da-8cff-68b2afca8d93",
             "statement": "Garder sa vieille voiture, c’est mieux pour l’environnement",
             "answer": true,
             "explanation": "Garder sa vieille voiture, c’est mieux pour l’environnement. La fabrication d’une voiture neuve est très polluante, dans la mesure du possible, il faut garder sa voiture le plus longtemps possible."
