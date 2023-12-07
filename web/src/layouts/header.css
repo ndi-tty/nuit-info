@@ -1,0 +1,48 @@
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #333;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  z-index: 1000;
+}
+
+h1 {
+  margin: 0;
+}
+
+.logo {
+  padding-left: 10px;
+}
+
+.right-part-header {
+  display: flex;
+  align-items: center;
+}
+
+.right-part-header button {
+  margin-right: 10px;
+}
+
+.year {
+  margin: 0;
+  font-size: 35px;
+  padding-right: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .app-header {
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+  }
+
+  h1 {
+    margin-bottom: 10px;
+  }
+}
