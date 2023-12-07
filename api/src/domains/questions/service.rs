@@ -25,8 +25,8 @@ pub async fn create_question(
     Ok(counter)
 }
 
-pub async fn fetch_random_questions(db: &Pool<Sqlite>) -> Result<Question, sqlx::Error> {
-    let counter = sqlx::query_as::<_, Question>(
+pub async fn fetch_random_questions(db: &Pool<Sqlite>) -> Result<Vec<Question>, sqlx::Error> {
+    let counters = sqlx::query_as::<_, Question>(
         r#"
         SELECT id, statement, answer, explanation, attempts, correct_answers
         FROM questions
@@ -34,10 +34,10 @@ pub async fn fetch_random_questions(db: &Pool<Sqlite>) -> Result<Question, sqlx:
         LIMIT 10
         "#,
     )
-    .fetch_one(db)
+    .fetch_all(db)
     .await?;
 
-    Ok(counter)
+    Ok(counters)
 }
 
 pub async fn increment_answer_count(id: String, increment_answer_count_dto: IncrementAnswerCountDto, db: &Pool<Sqlite>) -> Result<(), sqlx::Error> {
