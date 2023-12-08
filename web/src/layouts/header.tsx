@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "./header.css";
+import { RootState } from "../store/store";
+import { setCounter } from "../store/slices/yearCounter";
 
 export interface HeaderProps {
   message: string;
@@ -10,11 +13,15 @@ enum TimeManagement {
   DURATION_IN_MINUTES = 1,
 }
 export const Header: React.FC<HeaderProps> = ({ message }) => {
-  const [year, setYear] = useState(TimeManagement.START_TIME);
+  const dispatch = useDispatch();
+
+  const yearCount = useSelector(
+    (state: RootState) => state.yearCounter.yearsCounter
+  );
 
   useEffect(() => {
     const endTime = TimeManagement.END_TIME;
-    const startTime = year;
+    const startTime = yearCount;
     const totalTimeInYears = endTime - startTime;
     const durationInMinutes = 1;
     const totalIntervals = totalTimeInYears * 12;
@@ -25,8 +32,7 @@ export const Header: React.FC<HeaderProps> = ({ message }) => {
       const currentYear =
         startTime +
         Math.floor((currentInterval / totalIntervals) * totalTimeInYears);
-      setYear(currentYear);
-
+      dispatch(setCounter(currentYear));
       currentInterval += 1;
 
       if (currentInterval >= totalIntervals) {
@@ -51,7 +57,7 @@ export const Header: React.FC<HeaderProps> = ({ message }) => {
           ></label>
 
           <button onClick={() => console.log("theme changed")}>Thème</button>
-          <p className="year">{year}</p>
+          <p className="year">{yearCount}</p>
         </div>
       </header>
     </>

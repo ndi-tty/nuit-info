@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "./quiz.css";
+import { RootState } from "../store/store";
+import { setCounter } from "../store/slices/yearCounter";
 
 export interface QuizProps {
   statement: string;
@@ -18,15 +21,19 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
   const [score, setScore] = useState(0);
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
   const options = [true, false];
+  const dispatch = useDispatch();
+
+  const yearCount = useSelector(
+    (state: RootState) => state.yearCounter.yearsCounter
+  );
 
   const handleOptionClick = (option: boolean) => {
     if (currentIndex < quizData.length) {
       const isCorrect = option === quizData[currentIndex].answer;
       setselectedAnswers([...selectedAnswers, option]);
+      dispatch(setCounter(isCorrect ? yearCount + 3 : yearCount - 10));
       setScore(isCorrect ? score + 1 : score);
     }
-    console.log(`currentIndex: ${currentIndex}`);
-    console.log(`quizData.length: ${quizData.length}`);
     if (currentIndex + 1 === quizData.length) {
       setIsQuizCompleted(true);
     }
