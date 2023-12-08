@@ -214,7 +214,6 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
               <button
                 style={{
                   backgroundColor: "green",
-                  marginLeft: "10px",
                   color: "white",
                 }}
                 className="next-button-quiz"
