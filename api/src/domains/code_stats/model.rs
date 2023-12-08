@@ -5,4 +5,7 @@ use sqlx::FromRow;
 pub struct CodeStats {
     pub id: String,
     pub author: String,
+    pub web_code: String,
+    pub api_code: String,
+    pub container: String
 }
