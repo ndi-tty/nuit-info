@@ -1,8 +1,17 @@
-.home-container {
+.home-container-light {
   margin-top: 80px;
   height: 100vh;
   display: flex;
   flex-direction: row;
+  background-color: #161824;
+}
+
+.home-container-dark {
+  margin-top: 80px;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  background-color: #101010;
 }
 
 .left-section,

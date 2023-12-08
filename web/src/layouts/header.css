@@ -1,9 +1,23 @@
-.app-header {
+.app-header-dark {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
+  background-color: #101010;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  z-index: 1000;
+}
+
+.app-header-light {
   background-color: #161824;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   color: #fff;
   display: flex;
   justify-content: space-between;
@@ -20,15 +34,13 @@ h1 {
   font-size: bold;
   padding-left: 10px;
   margin-top: auto;
-  margin-bottom: auto 
-  
+  margin-bottom: auto;
 }
-.linear-gradient-element{
-  background: #88EBB6;
-background: linear-gradient(to right, #88EBB6 0%, #26A613 100%);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-
+.linear-gradient-element {
+  background: #88ebb6;
+  background: linear-gradient(to right, #88ebb6 0%, #26a613 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .right-part-header {

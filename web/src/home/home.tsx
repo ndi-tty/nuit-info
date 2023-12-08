@@ -25,9 +25,8 @@ export const fakeQuizData: QuizProps[] = [
 
 export const Home: React.FC<HomeProps> = () => {
   const [quizData, setQuizData] = useState<QuizProps[]>([]);
-  
-  const isEcoMode = useSelector((state: RootState) => state.ecoMode.isEcoMode);
 
+  const isEcoMode = useSelector((state: RootState) => state.ecoMode.isEcoMode);
 
   useEffect(() => {
     (async () => {
@@ -46,14 +45,17 @@ export const Home: React.FC<HomeProps> = () => {
     <>
       {quizData.length > 0 && (
         <>
-          <div className="home-container">
-            { !isEcoMode && 
-            (
+          <div
+            className={`${
+              isEcoMode ? "home-container-dark" : "home-container-light"
+            }`}
+          >
+            {!isEcoMode && (
               <div className="left-section">
                 <EarthScene />
               </div>
             )}
-           
+
             <div className="right-section">
               <div className="card">
                 <Quiz quizData={quizData} />

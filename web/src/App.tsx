@@ -5,7 +5,7 @@ import { Header } from "./layouts/header";
 function App() {
   return (
     <>
-      <Header message="" />
+      <Header />
       <Home />
     </>
   );

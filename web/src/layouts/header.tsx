@@ -6,10 +6,6 @@ import { setEcoMode } from "../store/slices/ecoMode";
 import earthImage from "../assets/earth.svg"; // Adjust the path accordingly
 import "./header.css";
 
-export interface HeaderProps {
-  message: string;
-}
-
 enum TimeManagement {
   START_TIME = 1980,
   END_TIME = 2024,
@@ -26,7 +22,7 @@ export const anecdotesEcolo = [
   "2021 : Les inondations dévastatrices en Allemagne et en Belgique, avec des précipitations exceptionnelles, mettent en évidence le lien potentiel entre le changement climatique et l'augmentation des événements météorologiques extrêmes.",
 ];
 
-export const Header: React.FC<HeaderProps> = ({ message }) => {
+export const Header: React.FC = () => {
   const dispatch = useDispatch();
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const popupRef = useRef(null);
@@ -72,12 +68,10 @@ export const Header: React.FC<HeaderProps> = ({ message }) => {
 
   return (
     <>
-      <header className="app-header">
+      <header className={isEcoMode ? "app-header-dark" : "app-header-light"}>
         <div style={{ display: "flex" }}>
           <img src={earthImage} alt="Earth" className="earth-image" />
           <h1 className="logo">Bienvenue sur Eco-Echo !</h1>
-
-          <h2 className="logo" style={{}}>{message}</h2>
         </div>
         <div className="right-part-header">
           <input className="tgl tgl-skewed" id="cb3" type="checkbox" />
