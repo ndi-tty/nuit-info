@@ -9,7 +9,6 @@ on:
 env:
   REGISTRY: ghcr.io
   IAMGE_NAME: web
-  DOCKERFILE_TARGET: runner
   DOCKERFILE_CONTEXT: web
 
 jobs:
@@ -56,8 +55,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: ${{ env.DOCKERFILE_CONTEXT }}
-          target: ${{ env.DOCKERFILE_TARGET }}
+          context: .
+          platforms: linux/arm64, linux/arm/v7
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
