@@ -1,4 +1,6 @@
 /target
 .env
-counter.db*
+*.db
+*.db-shm
+*.db-wal
 .vscode

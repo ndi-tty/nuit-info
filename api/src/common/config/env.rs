@@ -14,4 +14,10 @@ pub struct AppEnvironment {
 
     /// The password to use for basic auth
     pub admin_password: String,
+
+    /// The id of the github app
+    pub github_app_id: String,
+
+    /// The secret to use for the github app
+    pub github_app_secret: String,
 }

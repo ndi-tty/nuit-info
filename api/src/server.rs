@@ -34,6 +34,8 @@ pub async fn bootstrap() -> Result<(), Box<dyn std::error::Error + Send + Sync>>
         database_url: dotenvy::var("DATABASE_URL")?,
         admin_username: dotenvy::var("ADMIN_USERNAME")?,
         admin_password: dotenvy::var("ADMIN_PASSWORD")?,
+        github_app_id: dotenvy::var("GITHUB_APP_ID")?,
+        github_app_secret: dotenvy::var("GITHUB_APP_SECRET")?,
     };
 
     tracing_subscriber::fmt::init();
