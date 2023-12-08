@@ -129,8 +129,7 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
   };
 
   return (
-    <div className="quiz-container">
-      {!isQuizCompleted && (
+    <div className={`quiz-container ${isAnswerSelected && !quizData[currentIndex].answer ? 'horizontal-shake' : ''}`}>      {!isQuizCompleted && (
         <>
           <div className="quiz-card">
             <h3>{quizData[currentIndex].statement}</h3>
@@ -167,8 +166,7 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
       )}
 
       {isQuizCompleted && (
-        <div className="quiz-summary-container">
-          <div className="quiz-summary">
+        <div className={`quiz-summary-container ${quizData[currentIndex].answer ? 'horizontal-shake' : ''}`}>          <div className="quiz-summary">
             <h2>Quiz terminé</h2>
             <p>{handleScoreResponse(quizData.length, score)}</p>
             <h2>Liste des résultats</h2>

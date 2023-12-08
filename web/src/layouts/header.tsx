@@ -53,12 +53,9 @@ export const Header: React.FC<HeaderProps> = ({ message }) => {
       <header className="app-header">
         <div style={{ display: "flex" }}>
           <img src={earthImage} alt="Earth" className="earth-image" />
-          <h1
-            className="logo"
-            style={{ marginTop: "auto", marginBottom: "auto" }}
-          >
-            {message}
-          </h1>
+          <h1 className="logo">Bienvenue sur Eco-Echo !</h1>
+
+          <h2 className="logo" style={{}}>{message}</h2>
         </div>
         <div className="right-part-header">
           <input className="tgl tgl-skewed" id="cb3" type="checkbox" />

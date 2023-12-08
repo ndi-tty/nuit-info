@@ -17,7 +17,18 @@ h1 {
 }
 
 .logo {
+  font-size: bold;
   padding-left: 10px;
+  margin-top: auto;
+  margin-bottom: auto 
+  
+}
+.linear-gradient-element{
+  background: #88EBB6;
+background: linear-gradient(to right, #88EBB6 0%, #26A613 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+
 }
 
 .right-part-header {

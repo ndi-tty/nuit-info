@@ -100,3 +100,15 @@
   border-color: #007bff;
   outline: none;
 }
+
+@keyframes horizontal-shaking {
+  0% { transform: translateX(0) }
+  25% { transform: translateX(50px) }
+  50% { transform: translateX(-50px) }
+  75% { transform: translateX(50px) }
+  100% { transform: translateX(0) }
+ }
+
+ .horizontal-shake {
+  animation: horizontal-shaking 0.5s ease-in-out; /* Adjust the duration and timing function as needed */
+}
