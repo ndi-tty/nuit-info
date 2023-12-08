@@ -1,16 +1,13 @@
 .home-container {
-  margin-top: 80px !important;
+  margin-top: 80px;
   height: 100vh;
-  flex-direction: row;
   display: flex;
-}
-.left-section,
-.right-section {
-  flex: 1;
+  flex-direction: row;
 }
 
 .left-section,
 .right-section {
+  flex: 1;
   padding: 20px;
 }
 

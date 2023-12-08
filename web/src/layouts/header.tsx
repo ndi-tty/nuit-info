@@ -1,18 +1,21 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import "./header.css";
 import { RootState } from "../store/store";
 import { setCounter } from "../store/slices/yearCounter";
 import { setEcoMode } from "../store/slices/ecoMode";
+import earthImage from "../assets/earth.svg"; // Adjust the path accordingly
+import "./header.css";
 
 export interface HeaderProps {
   message: string;
 }
+
 enum TimeManagement {
   START_TIME = 1980,
   END_TIME = 2024,
   DURATION_IN_MINUTES = 1,
 }
+
 export const Header: React.FC<HeaderProps> = ({ message }) => {
   const dispatch = useDispatch();
 
@@ -43,12 +46,15 @@ export const Header: React.FC<HeaderProps> = ({ message }) => {
     }, (durationInMinutes * 60 * 1000) / totalIntervals);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [dispatch, yearCount]);
 
   return (
     <>
       <header className="app-header">
-        <h1 className="logo">{message}</h1>
+        <div style={{display: "flex"}}>
+          <img src={earthImage} alt="Earth" className="earth-image" />
+          <h1 className="logo" style={{marginTop: "auto", marginBottom: "auto"}}>{message}</h1>
+        </div>
         <div className="right-part-header">
           <input className="tgl tgl-skewed" id="cb3" type="checkbox" />
 

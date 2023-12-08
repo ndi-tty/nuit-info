@@ -1,13 +1,12 @@
 .quiz-card {
-  border: 1px solid #ffffff;
+  border: 2px solid #26a633;
   border-radius: 8px;
   padding: 20px;
   max-width: 100%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   background-color: rgb(100 100 100 / 70%);
 }
 .quiz-summary {
-  border: 1px solid #ffffff;
+  border: 1px solid #26a633;
   border-radius: 8px;
   padding: 20px;
   max-width: 100%;
@@ -18,13 +17,19 @@
   padding: 20px;
   margin-top: 20px;
 }
+.quiz-card ul {
+  display: flex;
+}
+
 .quiz-card li {
+  width: 45%;
   margin-bottom: 10px;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  text-align: center;
 }
 
 .quiz-card li:hover {
