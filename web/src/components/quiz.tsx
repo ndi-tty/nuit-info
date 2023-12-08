@@ -45,6 +45,7 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
   const [selectedAnswers, setselectedAnswers] = useState<boolean[]>([]);
   const [score, setScore] = useState(0);
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
+  const [isAnswerSelected, setIsAnswerSelected] = useState(false);
   const options = [true, false];
   const dispatch = useDispatch();
 
@@ -52,7 +53,10 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
     (state: RootState) => state.yearCounter.yearsCounter
   );
   
+  const isEcoMode = useSelector((state: RootState) => state.ecoMode.isEcoMode);
   const handleOptionClick = (option: boolean) => {
+    setIsAnswerSelected(true);
+
     if (currentIndex < quizData.length) {
       const isCorrect = option === quizData[currentIndex].answer;
       setselectedAnswers([...selectedAnswers, option]);
@@ -70,7 +74,9 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
   };
 
   const handleNextQuestion = () => {
+    if (!isAnswerSelected) return;
     if (currentIndex < quizData.length - 1) {
+      setIsAnswerSelected(false);
       setCurrentIndex(currentIndex + 1);
     }
   };
@@ -148,6 +154,22 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
                   </li>
                 ))}
               </ul>
+              {isEcoMode && (
+                <div className="eco-mode" style={{ marginRight: "10px" }}>
+                  <p>Merci d'avoir joué en mode éco</p>
+                </div>
+              )}
+              {!isEcoMode && (
+                <div className="eco-mode" style={{ marginRight: "10px" }}>
+                  <p>Reduisez votre impact en activant le mode éco</p>
+                  <button
+                    className="next-button-quiz"
+                    onClick={() => console.log("replay")}
+                  >
+                    Soumettre le resultat
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

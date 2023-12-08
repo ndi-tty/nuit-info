@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./header.css";
 import { RootState } from "../store/store";
 import { setCounter } from "../store/slices/yearCounter";
+import { setEcoMode } from "../store/slices/ecoMode";
 
 export interface HeaderProps {
   message: string;
@@ -18,6 +19,7 @@ export const Header: React.FC<HeaderProps> = ({ message }) => {
   const yearCount = useSelector(
     (state: RootState) => state.yearCounter.yearsCounter
   );
+  const isEcoMode = useSelector((state: RootState) => state.ecoMode.isEcoMode);
 
   useEffect(() => {
     const endTime = TimeManagement.END_TIME;
@@ -42,21 +44,26 @@ export const Header: React.FC<HeaderProps> = ({ message }) => {
 
     return () => clearInterval(interval);
   }, []);
+
   return (
     <>
       <header className="app-header">
         <h1 className="logo">{message}</h1>
         <div className="right-part-header">
           <input className="tgl tgl-skewed" id="cb3" type="checkbox" />
+
           <label
-            onClick={() => console.log("Eco mode activé")}
+            onClick={() => dispatch(setEcoMode(!isEcoMode))}
             className="tgl-btn"
             data-tg-off="OFF"
             data-tg-on="ON"
             htmlFor="cb3"
           ></label>
-
-          <button onClick={() => console.log("theme changed")}>Thème</button>
+          {isEcoMode ? (
+            <div className="eco-mode" style={{ marginRight: "10px" }}>
+              <p>Mode éco</p>
+            </div>
+          ) : null}
           <p className="year">{yearCount}</p>
         </div>
       </header>
