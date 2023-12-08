@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import "./home.css";
 import { EarthScene } from "../components/earth-scene";
 import { Helper } from "../helper/helper";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 export interface HomeProps {}
 export const fakeQuizData: QuizProps[] = [
@@ -23,6 +25,9 @@ export const fakeQuizData: QuizProps[] = [
 
 export const Home: React.FC<HomeProps> = () => {
   const [quizData, setQuizData] = useState<QuizProps[]>([]);
+  
+  const isEcoMode = useSelector((state: RootState) => state.ecoMode.isEcoMode);
+
 
   useEffect(() => {
     (async () => {
@@ -42,9 +47,13 @@ export const Home: React.FC<HomeProps> = () => {
       {quizData.length > 0 && (
         <>
           <div className="home-container">
-            <div className="left-section">
-              <EarthScene />
-            </div>
+            { !isEcoMode && 
+            (
+              <div className="left-section">
+                <EarthScene />
+              </div>
+            )}
+           
             <div className="right-section">
               <div className="card">
                 <Quiz quizData={quizData} />

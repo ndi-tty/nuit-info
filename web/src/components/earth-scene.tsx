@@ -5,6 +5,7 @@ import { useRef } from 'react';
 export const EarthScene: React.FC = () => {
   const spline = useRef();
 
+
     function onLoad(splineApp) {
         // save the app in a ref for later use
         spline.current = splineApp; 
