@@ -6,12 +6,10 @@ use axum::{
 use sqlx::{migrate::MigrateDatabase, sqlite::SqlitePoolOptions, Sqlite};
 use std::net::SocketAddr;
 use tracing::event;
-use tower_http::cors::CorsLayer;
+use tower_http::{cors::CorsLayer, services::{ServeDir, ServeFile}};
 
 pub fn create_router(app_state: AppState) -> Router {
     let router = Router::new();
-
-    let misc = Router::new().route("/health", get(health_check));
 
     router
         .route("/questions", post(handlers::create_question_handler))
@@ -20,22 +18,22 @@ pub fn create_router(app_state: AppState) -> Router {
         .route("/questions/:question_id/answer", put(handlers::increment_answer_count_handler))
         .route("/scores", post(create_score_handler))
         .route("/scores", get(get_last_ten_scores_handler))
-        .nest_service("/", misc)
+        .route("/health", get(health_check))
         .with_state(app_state)
         .layer(CorsLayer::permissive())
+        .nest_service("/", ServeFile::new("public/index.html"))
+        .nest_service("/assets", ServeDir::new("public/assets"))
 }
 
 pub async fn bootstrap() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     dotenvy::dotenv().ok();
 
     let env = AppEnvironment {
-        address: dotenvy::var("ADDRESS")?,
-        port: dotenvy::var("PORT")?.to_string().parse()?,
-        database_url: dotenvy::var("DATABASE_URL")?,
-        admin_username: dotenvy::var("ADMIN_USERNAME")?,
-        admin_password: dotenvy::var("ADMIN_PASSWORD")?,
-        github_app_id: dotenvy::var("GITHUB_APP_ID")?,
-        github_app_secret: dotenvy::var("GITHUB_APP_SECRET")?,
+        address: dotenvy::var("ADDRESS").expect("ADDRESS is not set"),
+        port: dotenvy::var("PORT")?.to_string().parse().expect("PORT is not set"),
+        database_url: dotenvy::var("DATABASE_URL").expect("DATABASE_URL is not set"),
+        admin_username: dotenvy::var("ADMIN_USERNAME").expect("ADMIN_USERNAME is not set"),
+        admin_password: dotenvy::var("ADMIN_PASSWORD").expect("ADMIN_PASSWORD is not set"),
     };
 
     tracing_subscriber::fmt::init();

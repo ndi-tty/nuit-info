@@ -1,0 +1,31 @@
+services:
+  ecoecho:
+    image: ecoecho/ecoecho:latest
+    environment:
+      DATABASE_URL: sqlite:api.db
+      ADDRESS: 0.0.0.0
+      PORT: 3000
+      ADMIN_PASSWORD: admin
+      ADMIN_USERNAME: admin
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ecoecho.rule=Host(`ndi.moreiradj.net`)"
+      - "traefik.http.routers.ecoecho.entrypoints=websecure"
+      - "traefik.http.routers.ecoecho.tls.certresolver=myresolver"
+
+  traefik:
+    image: traefik:v2.10
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.email=martin.moreiradj@icloud.com"
+      - "--certificatesresolvers.myresolver.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    volumes:
+      - /root/letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - "443:443"

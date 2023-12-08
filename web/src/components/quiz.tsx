@@ -98,7 +98,7 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
     console.log("post score");
     console.log(nom);
     console.log(score);
-    fetch("http://localhost:3000/scores", {
+    fetch("https://ndi.moreiradj.net/scores", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

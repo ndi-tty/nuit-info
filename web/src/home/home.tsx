@@ -30,7 +30,7 @@ export const Home: React.FC<HomeProps> = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch("http://localhost:3000/questions/random", {
+      const response = await fetch("https://ndi.moreiradj.net/questions/random", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
