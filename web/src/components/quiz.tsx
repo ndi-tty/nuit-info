@@ -51,10 +51,8 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
   const [isAnswerSelected, setIsAnswerSelected] = useState(false);
   const options = [true, false];
   const dispatch = useDispatch();
-  // Déclarer l'état pour stocker le nom
   const [nom, setNom] = useState("");
 
-  // Gestionnaire d'événements appelé à chaque changement dans l'input
   const handleChangementNom = (e: any) => {
     console.log(e.target.value);
     setNom(e.target.value);
@@ -84,6 +82,14 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
     }
   };
 
+  const startNewQuiz = () => {
+    setIsQuizCompleted(false);
+    setselectedAnswers([]);
+    setNom("");
+    setScore(0);
+    setCurrentIndex(0);
+  };
+
   const postScore = async () => {
     if (nom === "") {
       alert("Veuillez entrer votre nom");
@@ -98,9 +104,7 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ name: nom, longest_streak: score }),
-    })
-      .then((res) => res.json())
-      .then((res) => console.log(res));
+    }).then((res) => res.json());
   };
 
   const handleNextQuestion = () => {
@@ -207,6 +211,17 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
                   </button>
                 </div>
               )}
+              <button
+                style={{
+                  backgroundColor: "green",
+                  marginLeft: "10px",
+                  color: "white",
+                }}
+                className="next-button-quiz"
+                onClick={() => startNewQuiz()}
+              >
+                Recommencer
+              </button>
             </div>
           </div>
         </div>
