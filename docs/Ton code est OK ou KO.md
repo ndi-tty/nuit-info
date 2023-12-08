@@ -1,5 +1,8 @@
 # Le défi: Ton code est OK ou KO ?
 
+Code source : https://github.com/ndi-tty/nuit-info
+Lien du site: ndi.moreiradj.net
+
 ## Introduction
 
 La nuit de l'info se profile comme une opportunité unique où l'innovation et la collaboration convergent. Notre projet vise à catalyser cette expérience en instaurant un processus de validation agile au cours de la nuit .
