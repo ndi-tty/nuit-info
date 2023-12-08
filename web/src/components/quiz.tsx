@@ -16,29 +16,32 @@ export interface QuizFormProps {
 }
 
 const triggerAnimationSuivant = () => {
-  document.dispatchEvent(new KeyboardEvent("keydown", {
-    key: "s",
-    keyCode: 69,
-    code: "KeyE",  
-    which: 69,
-    shiftKey: false, 
-    ctrlKey: false,   
-    metaKey: false 
-}));
-}
-
+  document.dispatchEvent(
+    new KeyboardEvent("keydown", {
+      key: "s",
+      keyCode: 69,
+      code: "KeyE",
+      which: 69,
+      shiftKey: false,
+      ctrlKey: false,
+      metaKey: false,
+    })
+  );
+};
 
 const triggerAnimationBack = () => {
-  document.dispatchEvent(new KeyboardEvent("keydown", {
-    key: "b",
-    keyCode: 69,
-    code: "KeyE",  
-    which: 69,
-    shiftKey: false, 
-    ctrlKey: false,   
-    metaKey: false 
-}));
-}
+  document.dispatchEvent(
+    new KeyboardEvent("keydown", {
+      key: "b",
+      keyCode: 69,
+      code: "KeyE",
+      which: 69,
+      shiftKey: false,
+      ctrlKey: false,
+      metaKey: false,
+    })
+  );
+};
 
 export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -48,11 +51,19 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
   const [isAnswerSelected, setIsAnswerSelected] = useState(false);
   const options = [true, false];
   const dispatch = useDispatch();
+  // Déclarer l'état pour stocker le nom
+  const [nom, setNom] = useState("");
+
+  // Gestionnaire d'événements appelé à chaque changement dans l'input
+  const handleChangementNom = (e: any) => {
+    console.log(e.target.value);
+    setNom(e.target.value);
+  };
 
   const yearCount = useSelector(
     (state: RootState) => state.yearCounter.yearsCounter
   );
-  
+
   const isEcoMode = useSelector((state: RootState) => state.ecoMode.isEcoMode);
   const handleOptionClick = (option: boolean) => {
     setIsAnswerSelected(true);
@@ -63,14 +74,33 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
       dispatch(setCounter(isCorrect ? yearCount + 3 : yearCount - 10));
       setScore(isCorrect ? score + 1 : score);
       if (isCorrect) {
-        triggerAnimationBack()
+        triggerAnimationBack();
       } else {
-        triggerAnimationSuivant()
+        triggerAnimationSuivant();
       }
     }
     if (currentIndex + 1 === quizData.length) {
       setIsQuizCompleted(true);
     }
+  };
+
+  const postScore = async () => {
+    if (nom === "") {
+      alert("Veuillez entrer votre nom");
+      return;
+    }
+    console.log("post score");
+    console.log(nom);
+    console.log(score);
+    fetch("http://localhost:3000/scores", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: nom, longest_streak: score }),
+    })
+      .then((res) => res.json())
+      .then((res) => console.log(res));
   };
 
   const handleNextQuestion = () => {
@@ -124,11 +154,11 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
             {currentIndex < selectedAnswers.length && (
               <p>Explication : {quizData[currentIndex].explanation}</p>
             )}
-          </div>
 
-          <button className="next-button-quiz" onClick={handleNextQuestion}>
-            Suivant
-          </button>
+            <button className="next-button-quiz" onClick={handleNextQuestion}>
+              Suivant
+            </button>
+          </div>
         </>
       )}
 
@@ -162,9 +192,16 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
               {!isEcoMode && (
                 <div className="eco-mode" style={{ marginRight: "10px" }}>
                   <p>Reduisez votre impact en activant le mode éco</p>
+                  <input
+                    className="name-quiz"
+                    type="text"
+                    placeholder="Entrez votre nom"
+                    value={nom}
+                    onChange={handleChangementNom}
+                  />
                   <button
                     className="next-button-quiz"
-                    onClick={() => console.log("replay")}
+                    onClick={() => postScore()}
                   >
                     Soumettre le resultat
                   </button>

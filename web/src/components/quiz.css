@@ -74,3 +74,29 @@
   background-color: #e74c3c;
   color: #fff;
 }
+
+/* Styles pour l'input */
+.name-quiz {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Style pour le placeholder */
+.name-quiz::placeholder {
+  color: #999;
+}
+
+/* Style lorsqu'on survole l'input */
+.name-quiz:hover {
+  border-color: #666;
+}
+
+/* Style lorsqu'on donne le focus à l'input */
+.name-quiz:focus {
+  border-color: #007bff;
+  outline: none;
+}
