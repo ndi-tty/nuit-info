@@ -15,6 +15,31 @@ export interface QuizFormProps {
   quizData: QuizProps[];
 }
 
+const triggerAnimationSuivant = () => {
+  document.dispatchEvent(new KeyboardEvent("keydown", {
+    key: "s",
+    keyCode: 69,
+    code: "KeyE",  
+    which: 69,
+    shiftKey: false, 
+    ctrlKey: false,   
+    metaKey: false 
+}));
+}
+
+
+const triggerAnimationBack = () => {
+  document.dispatchEvent(new KeyboardEvent("keydown", {
+    key: "b",
+    keyCode: 69,
+    code: "KeyE",  
+    which: 69,
+    shiftKey: false, 
+    ctrlKey: false,   
+    metaKey: false 
+}));
+}
+
 export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswers, setselectedAnswers] = useState<boolean[]>([]);
@@ -26,13 +51,18 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
   const yearCount = useSelector(
     (state: RootState) => state.yearCounter.yearsCounter
   );
-
+  
   const handleOptionClick = (option: boolean) => {
     if (currentIndex < quizData.length) {
       const isCorrect = option === quizData[currentIndex].answer;
       setselectedAnswers([...selectedAnswers, option]);
       dispatch(setCounter(isCorrect ? yearCount + 3 : yearCount - 10));
       setScore(isCorrect ? score + 1 : score);
+      if (isCorrect) {
+        triggerAnimationBack()
+      } else {
+        triggerAnimationSuivant()
+      }
     }
     if (currentIndex + 1 === quizData.length) {
       setIsQuizCompleted(true);
