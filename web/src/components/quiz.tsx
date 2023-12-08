@@ -17,6 +17,7 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
   const [selectedAnswers, setselectedAnswers] = useState<boolean[]>([]);
   const [score, setScore] = useState(0);
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
+  const options = [true, false];
 
   const handleOptionClick = (option: boolean) => {
     if (currentIndex < quizData.length) {
@@ -24,7 +25,9 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
       setselectedAnswers([...selectedAnswers, option]);
       setScore(isCorrect ? score + 1 : score);
     }
-    if (currentIndex === quizData.length - 1) {
+    console.log(`currentIndex: ${currentIndex}`);
+    console.log(`quizData.length: ${quizData.length}`);
+    if (currentIndex + 1 === quizData.length) {
       setIsQuizCompleted(true);
     }
   };
@@ -44,7 +47,7 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
     } else if (percentage >= 40) {
       return "Moyen vous avez plus de 40% de bonnes réponses";
     } else {
-      return "Il serait peut-être temps de réviser";
+      return "Il serait peut-être temps de réviser vos classiques";
     }
   };
 
@@ -55,7 +58,7 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
           <div className="quiz-card">
             <h3>{quizData[currentIndex].statement}</h3>
             <ul>
-              {quizData[currentIndex].options.map((option, index) => (
+              {options.map((option: boolean, index: React.Key) => (
                 <li
                   key={index}
                   className={
@@ -87,25 +90,29 @@ export const Quiz: React.FC<QuizFormProps> = ({ quizData }) => {
       )}
 
       {isQuizCompleted && (
-        <div className="quiz-summary">
-          <h2>Quiz terminé</h2>
-          <p>{handleScoreResponse(quizData.length, score)}</p>
-          <h2>Liste des resultats</h2>
-          <ul>
-            {quizData.map((quiz, index) => (
-              <li
-                style={{ cursor: "text" }}
-                key={index}
-                className={
-                  quiz.answer === selectedAnswers[index]
-                    ? "correct"
-                    : "incorrect"
-                }
-              >
-                {index + 1} : {quiz.statement}
-              </li>
-            ))}
-          </ul>
+        <div className="quiz-summary-container">
+          <div className="quiz-summary">
+            <h2>Quiz terminé</h2>
+            <p>{handleScoreResponse(quizData.length, score)}</p>
+            <h2>Liste des résultats</h2>
+            <div className="result-list-container">
+              <ul>
+                {quizData.map((quiz, index) => (
+                  <li
+                    style={{ cursor: "text" }}
+                    key={index}
+                    className={
+                      quiz.answer === selectedAnswers[index]
+                        ? "correct"
+                        : "incorrect"
+                    }
+                  >
+                    {index + 1} : {quiz.statement}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       )}
     </div>

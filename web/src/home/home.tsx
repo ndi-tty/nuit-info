@@ -1,5 +1,6 @@
 import { Quiz, QuizProps } from "../components/quiz";
-import React, { useEffect } from "react";
+
+import React, { useEffect, useState } from "react";
 import "./home.css";
 
 export interface HomeProps {}
@@ -19,7 +20,8 @@ export const fakeQuizData: QuizProps[] = [
 ];
 
 export const Home: React.FC<HomeProps> = () => {
-  const [quizData, setQuizData] = React.useState<QuizProps[]>([]);
+  const [quizData, setQuizData] = useState<QuizProps[]>([]);
+
   useEffect(() => {
     (async () => {
       const response = await fetch("http://localhost:3000/questions/random", {
@@ -30,20 +32,23 @@ export const Home: React.FC<HomeProps> = () => {
       });
       const data = await response.json();
       setQuizData(data);
-      console.log(data);
     })();
   }, []);
 
   return (
-    <div className="home-container">
-      <div className="left-section">
-        <h2>Left Section (3/5 of the page)</h2>
-      </div>
-      <div className="right-section">
-        <div className="card">
-          <Quiz quizData={fakeQuizData} />
+    <>
+      {quizData.length > 0 && (
+        <div className="home-container">
+          <div className="left-section">
+            <h2>Left Section (3/5 of the page)</h2>
+          </div>
+          <div className="right-section">
+            <div className="card">
+              <Quiz quizData={quizData} />
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };

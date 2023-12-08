@@ -52,6 +52,14 @@
   font-weight: bold;
 }
 
+.quiz-summary-container {
+  overflow-y: auto;
+}
+.result-list-container {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
 .correct {
   background-color: #2ecc71;
   color: #fff;
